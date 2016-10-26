@@ -22,6 +22,10 @@
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
       var socket = io();
+      socket.on('connect', function () {
+        // socket.send('hi new user');
+        $('#messages').append($('<li>').text('hi new user'));
+      });
       $('form').submit(function(){
         socket.emit('chat message', $('#m').val());
         $('#m').val('');
@@ -29,6 +33,9 @@
       });
       socket.on('chat message', function(msg){
         $('#messages').append($('<li>').text(msg));
+      });
+      socket.on('disconnect', function () {
+        socket.send("user disconnected");
       });
     </script>
   </body>
